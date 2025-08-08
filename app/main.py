@@ -50,7 +50,7 @@ def login_for_access_token(form_data: schemas.UserLogin, db: Session = Depends(g
     access_token = auth.create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
-@app.post("/calculations/", response_model=schemas.CalculationRead, status_code=status.HTTP_21_CREATED)
+@app.post("/calculations/", response_model=schemas.CalculationRead, status_code=status.HTTP_201_CREATED)
 def add_calculation(
     calculation: schemas.CalculationCreate,
     db: Session = Depends(get_db),
