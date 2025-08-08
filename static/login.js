@@ -15,6 +15,7 @@ document.getElementById('loginForm').addEventListener('submit', async (event) =>
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('accessToken', data.access_token);
+            window.location.href = '/static/calculations.html';
             messageDiv.textContent = 'Login successful!';
             messageDiv.style.color = 'green';
         } else {

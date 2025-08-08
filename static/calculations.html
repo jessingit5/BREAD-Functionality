@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Calculations</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container calculations-container">
+        <h1>My Calculations</h1>
+        <div id="message"></div>
+
+        <form id="calcForm">
+            <input type="hidden" id="calcId" name="calcId">
+            <input type="number" id="valA" placeholder="Value A" required>
+            <select id="opType" required>
+                <option value="add">+</option>
+                <option value="subtract">-</option>
+                <option value="multiply">*</option>
+                <option value="divide">/</option>
+            </select>
+            <input type="number" id="valB" placeholder="Value B" required>
+            <button type="submit">Save Calculation</button>
+            <button type="button" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+        </form>
+
+        <h2>History</h2>
+        <ul id="calcList">
+            </ul>
+    </div>
+    <script src="/static/calculations.js"></script>
+</body>
+</html>
