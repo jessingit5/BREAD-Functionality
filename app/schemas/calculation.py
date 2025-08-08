@@ -33,3 +33,8 @@ class CalculationRead(BaseModel):
     def result(self) -> float:
         operation = CalculationFactory.get_operation(self.type)
         return operation(self.a, self.b).execute()
+    
+class CalculationUpdate(BaseModel):
+    a: float
+    b: float
+    type: CalculationType
