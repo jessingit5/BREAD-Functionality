@@ -1,0 +1,19 @@
+# Core Framework
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy
+psycopg2-binary
+
+# Data Validation & Hashing
+pydantic[email]
+passlib[bcrypt]
+
+# Authentication
+python-jose[cryptography]
+
+# Testing
+pytest
+requests
+pytest-playwright
