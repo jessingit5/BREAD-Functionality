@@ -31,19 +31,19 @@ def test_successful_login(page: Page):
     
     page.get_by_label("Email:").fill(UNIQUE_EMAIL)
     page.get_by_label("Password:").fill("password123")
+    
     page.get_by_role("button", name="Login").click()
     
-    success_message = page.locator("#message")
-    expect(success_message).to_have_text("Login successful!")
-    
-    token = page.evaluate("localStorage.getItem('accessToken')")
-    assert token is not None
+    expect(page).to_have_url("http://localhost:8000/static/calculations.html")
+   
+    expect(page.get_by_role("heading", name="My Calculations")).to_be_visible()
 
 def test_login_with_wrong_password(page: Page):
     page.goto("http://localhost:8000/static/login.html")
     
     page.get_by_label("Email:").fill(UNIQUE_EMAIL)
     page.get_by_label("Password:").fill("wrongpassword")
+    
     page.get_by_role("button", name="Login").click()
     
     error_message = page.locator("#message")
