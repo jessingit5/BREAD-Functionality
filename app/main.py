@@ -3,20 +3,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 from . import models, schemas, auth, hashing
-from .database import SessionLocal, engine, Base
+from .database import engine, Base, get_db
 
 Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 @app.get("/", response_class=FileResponse, include_in_schema=False)
 async def read_root():
@@ -48,7 +39,7 @@ def login_for_access_token(form_data: schemas.UserLogin, db: Session = Depends(g
 
 @app.post("/calculations/", response_model=schemas.CalculationRead, status_code=status.HTTP_201_CREATED)
 def add_calculation(calc: schemas.CalculationCreate, db: Session = Depends(get_db), user: models.User = Depends(auth.get_current_active_user)):
-    db_calc = models.Calculation(**calc.model_dump(), user_id=user.id)
+    db_calc = models.Calculation(a=calc.a, b=calc.b, type=calc.type.value, user_id=user.id)
     db.add(db_calc)
     db.commit()
     db.refresh(db_calc)
@@ -80,7 +71,6 @@ def edit_calculation(calc_id: int, calc: schemas.CalculationUpdate, db: Session 
 
 @app.delete("/calculations/{calc_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_calculation(calc_id: int, db: Session = Depends(get_db), user: models.User = Depends(auth.get_current_active_user)):
-
     db_calc = db.query(models.Calculation).filter(models.Calculation.id == calc_id, models.Calculation.user_id == user.id).first()
     if not db_calc:
         raise HTTPException(status_code=404, detail="Calculation not found")

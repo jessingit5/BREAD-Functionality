@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error('Could not fetch calculations.');
             
             const calculations = await response.json();
-            calcList.innerHTML = ''; // Clear the list
+            calcList.innerHTML = ''; 
             calculations.forEach(calc => {
                 const li = document.createElement('li');
                 li.innerHTML = `
